@@ -35,6 +35,7 @@ See? very easy. It's just 4 lines (excluding opening the game) and can be shorte
 Please contact me if the license feels a little restrictve. As I'm still working on finding a good license.
 
 Contact (Discord, usually open): outof1q
+
 If I don't reply to you, I might be busy with something, don't rush me unless it's **REALLY** important.
 
 COMMUNITY:
