@@ -6,6 +6,8 @@ I probably should've made this repo a few moths earlier, but I got carries away 
 
 This is the OFFICIAL 3CiC repo. Any other with a similar name and/or similar source are probably copycats, or worse, fakers. Especially if it's hosted in another site than GitHub (which is here).
 
+Currently, the game is stil in development by me, OutOfIQ. If you have any suggestions for the game or anything
+
 ## How to Compile:
 1. Open your terminal
 2. Execute the following:
@@ -32,6 +34,8 @@ See? very easy. It's just 4 lines (excluding opening the game) and can be shorte
 
 Please contact me if the license feels a little restrictve. As I'm still working on finding a good license.
 
-Contact (Discord, usually open): outof1q with a white, tilted question mark in a black background for the PFP
+Contact (Discord, usually open): outof1q
 If I don't reply to you, I might be busy with something, don't rush me unless it's **REALLY** important.
 
+COMMUNITY:
+[3C Discord](https://discord.gg/RBz26uwreZ)
