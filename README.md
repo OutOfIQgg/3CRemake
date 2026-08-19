@@ -2,11 +2,11 @@
 ## or Circle Chasing Circle in C
 ### or just 3C
 
-I probably should've made this repo a few moths earlier, but I got carries away by some things in life.
+I probably should've made this repo a few months earlier, but I got carries away by some things in life.
 
-This is the OFFICIAL 3CiC repo. Any other with a similar name and/or similar source are probably copycats, or worse, fakers. Especially if it's hosted in another site than GitHub (which is here).
+This is the OFFICIAL 3CiC repo. Any other with a similar name and/or similar source are probably copycats, or worse, fakers, or maybe unrelated projects. Especially if it's hosted in another site than GitHub (which is where you currently are).
 
-Currently, the game is stil in development by me, OutOfIQ. If you have any suggestions for the game or anything
+Currently, the game is stil in development, so don't think this is the full release or early access. It's more of a test branch right now. You can download it at your own risk as there's only the main menu and the game. The options are still underdeveloped.
 
 ## How to Compile:
 1. Open your terminal
@@ -39,3 +39,7 @@ If I don't reply to you, I might be busy with something, don't rush me unless it
 
 COMMUNITY:
 [3C Discord](https://discord.gg/RBz26uwreZ)
+
+CREDITS:
+[raylib](https://github.com/raysan5/raylib) - raysan5
+[raygui](https://github.com/raysan5/raygui) - raysan5
