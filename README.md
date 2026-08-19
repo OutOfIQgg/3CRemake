@@ -38,8 +38,11 @@ Contact (Discord, usually open): outof1q
 If I don't reply to you, I might be busy with something, don't rush me unless it's **REALLY** important.
 
 COMMUNITY:
+
 [3C Discord](https://discord.gg/RBz26uwreZ)
 
 CREDITS:
+
 [raylib](https://github.com/raysan5/raylib) - raysan5
+
 [raygui](https://github.com/raysan5/raygui) - raysan5
