@@ -14,8 +14,8 @@ int main(void)
     SetExitKey(0);
 
     Player player = {
-        .pos = (Vector2){wind_width/2.f, wind_height/2.f},
-        .vel = Vector2Zero(),
+        .ent.pos = (Vector2){wind_width/2.f, wind_height/2.f},
+        .ent.vel = Vector2Zero(),
         .radius = 15.f,
         .rotation = .0f,
         .speed = 1.f,
@@ -100,7 +100,7 @@ int main(void)
                 // Debug ain't doing NOTHING other than show player position ToT
                 if (debug)
                 {
-                    DrawText(TextFormat("player position: %.2f, %.2f", player.pos.x, player.pos.y), 10, 10, 26, WHITE);
+                    DrawText(TextFormat("player position: %.2f, %.2f", player.ent.pos.x, player.ent.pos.y), 10, 10, 26, WHITE);
                 }
 
                 if (paused)
