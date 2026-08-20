@@ -1,3 +1,4 @@
+#include "raygui.h"
 #include "Player.h"
 
 void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* game_state)

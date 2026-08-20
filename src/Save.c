@@ -1,14 +1,14 @@
 #include "Save.h"
 #include <string.h>
 
-int SaveToFile(const uint64_t* data, const uint64_t offset, const char* dest)
+int SaveToFile(const uint64_t* data, const int offset, const char* dest)
 {
-    if (data == NULL || offset == NULL) return -1;
+    if (data == NULL || dest == NULL || offset < 0) return -1;
 
     FILE* savefile = fopen(dest, "r+b");
     if (savefile == NULL)
     {
-        savefile = fopen(dest, "wb");
+        savefile = fopen(dest, "w+b");
         if (savefile == NULL) return -1;
     }
 
@@ -23,18 +23,28 @@ int SaveToFile(const uint64_t* data, const uint64_t offset, const char* dest)
 
     fclose(savefile);
 
-    return (written == size) ? 0 : -1;
+    return (written == 1) ? 0 : -1;
 }
 
-uint64_t LoadFromFile(const uint64_t offset, const char* src)
+uint64_t LoadFromFile(const int offset, const char* src)
 {
-    FILE* savefile = fopen(src, "rb");
-    if (savefile == NULL) return UINT64_MAX;
+    FILE* savefile = fopen(src, "r+b");
+    if (savefile == NULL)
+    {
+        savefile = fopen(src, "wb");
+        if (savefile != NULL) {
+            uint64_t tempval = 5;
+            fwrite(&tempval, sizeof(uint64_t), 1, savefile);
+            fclose(savefile);
+            return tempval + 1;
+        }
+        return -1;
+    }
 
     if (fseek(savefile, offset, SEEK_SET) != 0)
     {
         fclose(savefile);
-        return UINT64_MAX;
+        return 2;
     }
 
     uint64_t returnd = 0;
@@ -42,7 +52,7 @@ uint64_t LoadFromFile(const uint64_t offset, const char* src)
 
     fclose(savefile);
 
-    if (read != 1) return UINT64_MAX;
+    if (read != 1) return 0;
 
     return returnd;
 }

@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include <raylib.h>
-#include "raygui.h"
 #include <stdint.h>
 #include <raymath.h>
 #include <stdlib.h>
@@ -10,7 +9,6 @@
 #include <string.h>
 
 #include "State.h"
-#include "Dots.h"
 
 typedef struct Entity {
     Vector2 pos;                                                // Entity position
@@ -50,6 +48,8 @@ typedef struct Bullet
     float spd;                                                  // Bullet speed
     bool active;                                                // Is the bullet active (i.e. was it hit or OOB)
 } Bullet;
+
+#include "Dots.h"
 
 // Functions
 // Player

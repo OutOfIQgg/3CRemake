@@ -1,5 +1,6 @@
 #define RAYGUI_IMPLEMENTATION
-#define RAYGUI_NO_ICONS
+//#define RAYGUI_NO_ICONS
+#include "raygui.h"
 #include "Player.h"
 #include "Save.h"
 
@@ -77,11 +78,11 @@ int main(void)
                 for (int i = 0; i < 3; i++) DrawText("CIRCLE CHASING", i * 325 + 10, wind_height / 3.6, 36, WHITE);
 
                 // Display high points
-                DrawText(TextFormat("HIGHEST POINTS: %d", high_score), 10, 10, 26, WHITE);
+                DrawText(TextFormat("HIGHEST POINTS: %llu", high_score), 10, 10, 26, WHITE);
                 
                 GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
 
-                if (GuiButton((Rectangle){10, 36, 60, 20}, "CLEAR")) { SaveToFile(0, 0, SaveFileName); high_score = LoadFromFile(0, SaveFileName); }
+                if (GuiButton((Rectangle){10, 36, 60, 20}, "CLEAR")) { uint64_t z = 0;; SaveToFile(&z, 0, SaveFileName); high_score = LoadFromFile(0, SaveFileName); }
 
                 GuiSetStyle(DEFAULT, TEXT_SIZE, 26);
 

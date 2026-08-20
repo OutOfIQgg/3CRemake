@@ -12,6 +12,9 @@ DotSpawnEntry point_dot_chances[] = {
     { CCCiC_DOT_TYPE_DOUB_SPEED,    35 },
     { CCCiC_DOT_TYPE_DOUB_POINTS,   25 },
     { CCCiC_DOT_TYPE_DOUB_DAMAGE,   45 },
+    { CCCiC_DOT_TYPE_DOUB_DEFENSE,  20 },
+    { CCCiC_DOT_TYPE_DOUB_HEALTH,   35 },
+    { CCCiC_DOT_TYPE_DOUB_DISCOUNT, 10 },
 };
 
 void InitDots(const Vector2 wind_size, Dot* dot[], unsigned int amount)
