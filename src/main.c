@@ -24,6 +24,7 @@ int main(void)
         .controls = {KEY_W, KEY_A, KEY_S, KEY_D, KEY_SPACE},
         .color = {0xFF, 0xFF, 0xFF, 0xFF},
         .health = 100,
+        .maxhealth = 100,
         .spdbst = 1,
         .pntbst = 1,
         .dmgbst = 1,

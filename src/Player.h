@@ -30,6 +30,7 @@ typedef struct Player {
     // controls[4] = shoot
     Color color;                                                // Player color
     uint16_t health;                                            // Player health
+    uint16_t maxhealth;                                         // Player max health
 
     // Upgrades
     int spdbst;                                                 // Speed Boost,     maximum is 5

@@ -249,6 +249,8 @@ void UpdateDotsBasedOnPlayer(const Vector2 wind_size, Player* player, Dot* dot[]
                     {
                         player->uduration[4] += dot[i]->duration;
                         if (player->hpboost >= 0 && player->hpboost < 35) player->hpboost++;
+                        // Will probably change this... Unless it's the only way.
+                        player->health += 20;
                         break;
                     }
                     case CCCiC_DOT_TYPE_DOUB_DISCOUNT:

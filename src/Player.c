@@ -16,7 +16,7 @@ void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* 
     player->ent.pos.x = Clamp(player->ent.pos.x, player->radius, wind_size.x - player->radius);
     player->ent.pos.y = Clamp(player->ent.pos.y, player->radius, wind_size.y - player->radius);
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i <= 5; i++)
     {
         if (player->uduration[i] > 0)
         {
@@ -37,6 +37,18 @@ void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* 
                     case 2:
                         player->dmgbst = 1;
                     break;
+
+                    case 3:
+                        player->dfnsbst = 1;
+                    break;
+
+                    case 4:
+                        player->hpboost = 1;
+                    break;
+
+                    case 5:
+                        player->discount = false;
+                    break;
                     
                     default:
                     break;
@@ -45,9 +57,8 @@ void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* 
         }
     }
 
-    // TODO: Make health system (better we do it with enemy system)
-    // I gotchu
-    player->health *= player->hpboost;
+    player->maxhealth = 100 * player->hpboost;
+    player->health = Clamp(player->health, 0, player->maxhealth);
     if (player->health <= 0) *(game_state) = CCCiC_STATE_DEAD;
 }
 
@@ -138,8 +149,9 @@ void DrawPlayerHUD(Player* player, const Vector2 wind_size, const Vector2 mousep
     DrawText("STATUS", 25, linestarty - 5, 14, BLACK);
     
     // Health
-    DrawRectangle(10, linestarty + 105, player->health * 4, 30, (Color){155, 155, 190, 150});
-    DrawRectangleLines(10, linestarty + 105, player->health * 4, 30, (Color){120, 120, 140, 120});
+    // DrawRectangle(10, linestarty + 105, player->health * 4, 30, (Color){155, 155, 190, 150});
+    // DrawRectangleLines(10, linestarty + 105, 400, 30, (Color){120, 120, 140, 120});
+    DrawText(TextFormat("HEALTH: %d / %d", player->health, player->maxhealth), 10, linestarty + 105, 28, GREEN);
     
     // Points
     DrawText(TextFormat("POINTS: %d", player->points), 10, linestarty + 15, 24, (Color){155, 155, 150, 135});
