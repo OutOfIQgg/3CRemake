@@ -2,6 +2,8 @@
 ## or Circle Chasing Circle in C
 ### or just 3C
 
+# !! GODOT BRANCH !!
+
 I probably should've made this repo a few months earlier, but I got carries away by some things in life.
 
 This is the OFFICIAL 3CiC repo. Any other with a similar name and/or similar source are probably copycats, or worse, fakers, or maybe unrelated projects. Especially if it's hosted in another site than GitHub (which is where you currently are).
