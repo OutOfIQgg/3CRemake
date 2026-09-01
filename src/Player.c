@@ -3,6 +3,7 @@
 
 void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* game_state)
 {
+    // Movement
     player->ent.vel = (Vector2){
         (IsKeyDown(player->controls[3]) * (player->speed * player->spdbst)) -
         (IsKeyDown(player->controls[1]) * (player->speed * player->spdbst)),
@@ -13,9 +14,11 @@ void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* 
     player->ent.pos.x += player->ent.vel.x;
     player->ent.pos.y += player->ent.vel.y;
 
+    // No escaping the window
     player->ent.pos.x = Clamp(player->ent.pos.x, player->radius, wind_size.x - player->radius);
     player->ent.pos.y = Clamp(player->ent.pos.y, player->radius, wind_size.y - player->radius);
 
+    // Timer for upgrades and effects
     for (int i = 0; i <= 5; i++)
     {
         if (player->uduration[i] > 0)
@@ -57,9 +60,26 @@ void UpdatePlayer(Player* player, const Vector2 wind_size, const float dt, int* 
         }
     }
 
+    // Health insurance
     player->maxhealth = 100 * player->hpboost;
     player->health = Clamp(player->health, 0, player->maxhealth);
     if (player->health <= 0) *(game_state) = CCCiC_STATE_DEAD;
+    
+    // Bullet handling
+
+    // We add a bullet
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        AddBullet(player->bullets, &(Bullet){ (Entity){ player->ent.pos, Vector2Zero() }, player->ent.pos, 95.f, GetMousePosition(), true }, &player->bulamnt);
+    }
+
+    // Then we update every bullet that we have
+    for (unsigned int i = 0; i < player->bulamnt; i++)
+    {
+        if (!player->bullets[i].active) RemoveBullet(player->bullets, i, &player->bulamnt);
+
+        UpdateBullet(&player->bullets[i], &wind_size, dt);
+    }
 }
 
 void DrawPlayer(Player* player, const Vector2 wind_size, const Vector2 mousepos)
@@ -67,6 +87,11 @@ void DrawPlayer(Player* player, const Vector2 wind_size, const Vector2 mousepos)
     // Player Circle
     DrawCircleV(player->ent.pos, player->radius, player->color);
     DrawText("P", player->ent.pos.x, player->ent.pos.y, 16, GRAY);
+
+    for (unsigned int i = 0; i < player->bulamnt; i++)
+    {
+        DrawBullet(&player->bullets[i]);
+    }
 
     /* Old status viewing (mostly Gemini but has a few personal touches. Rebuilding cuz it's UGLY and inconvenient)
     // Also because that's where the old HUD is. Muesume, I guess
@@ -180,13 +205,81 @@ void DrawPlayerHUD(Player* player, const Vector2 wind_size, const Vector2 mousep
     EndScissorMode();
 }
 
-void UpdateBullets(Bullet* bullet, const Entity* ent, const Vector2* target, const Vector2* wind_size)
+void UpdateBullet(Bullet* bullet, const Vector2* wind_size, const float dt)
 {
-    if ((bullet->ent.pos.x < 0 || bullet->ent.pos.x > wind_size->x) && (bullet->ent.pos.y < 0 && bullet->ent.pos.y > wind_size->y) && bullet->active == true) bullet->active = false; 
+    // If the bullet is OUTSIDE the window/boundry, it is REMOVED on the spot. Optimizing the game for the better.
+    if ((bullet->ent.pos.x < -EPSILON || bullet->ent.pos.x > wind_size->x) || (bullet->ent.pos.y < -EPSILON || bullet->ent.pos.y > wind_size->y)) bullet->active = false; 
 
-    float angle = atan2f(target->y - ent->pos.y, target->x - ent->pos.x);
+    if (bullet->active)
+    {
+        float angle = atan2f(bullet->dir.y - bullet->shtr.y, bullet->dir.x - bullet->shtr.x);
 
-    bullet->ent.vel = (Vector2){
-        cosf(angle) * bullet->spd, sinf(angle) * bullet->spd
-    };
+        bullet->ent.vel = (Vector2){
+            cosf(angle) * bullet->spd, sinf(angle) * bullet->spd
+        };
+        bullet->ent.pos.x += bullet->ent.vel.x * dt;
+        bullet->ent.pos.y += bullet->ent.vel.y * dt;
+    }
+}
+
+void DrawBullet(const Bullet* bullet)
+{
+    // Seems pretty simple. Why even bother with it?
+    if (bullet->active) DrawCircleV(bullet->ent.pos, 1.f, RED);
+}
+
+void AddBullet(Bullet* bullets, Bullet* bullet, unsigned int* pre_amount)
+{
+    // Increment the amount value
+    (*pre_amount)++;
+
+    // Reallocate space
+    Bullet* nbullets = (Bullet*)realloc(bullets, *pre_amount * sizeof(Bullet));
+
+    // NULL check
+    if (nbullets == NULL)
+    {
+        fprintf(stderr, "Sorry, couldn't make space for our bullets!");
+        (*pre_amount)--;
+        return;
+    }
+
+    bullets = nbullets;
+
+    // Shift the bullets to the right for our new bullet that goes to index 0
+    for (unsigned int i = *pre_amount - 1; i > 0; i--)
+    {
+        bullets[i] = bullets[i - 1];
+    }
+
+    // Put out bullet in index 0 as promised earlier
+    bullets[0] = *bullet;
+}
+
+void RemoveBullet(Bullet* bullets, unsigned int index, unsigned int* pre_amount)
+{
+    // DO NOT LEAVE YOUR POINTER'S BOUNDRIES!!!
+    if (index >= *pre_amount) return;
+
+    // Shift the bullets (the desired bullet will [hopefully] be overwritten)
+    for (unsigned int i = index; i < *pre_amount - 1; i++)
+    {
+        bullets[i] = bullets[i + 1];
+    }
+
+    // Decrement the amount value
+    (*pre_amount)--;
+
+    // Reallocate (and get rid of the trail we left behind)
+    Bullet* nbullets = (Bullet*)realloc(bullets, *pre_amount * sizeof(Bullet));
+
+    // Check if we got away with it
+    if (nbullets == NULL)
+    {
+        fprintf(stderr, "Sorry, couldn't remove a bullet of ours!");
+        (*pre_amount)++;
+        return;
+    }
+
+    bullets = nbullets;
 }

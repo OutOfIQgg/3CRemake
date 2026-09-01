@@ -17,71 +17,62 @@ DotSpawnEntry point_dot_chances[] = {
     { CCCiC_DOT_TYPE_DOUB_DISCOUNT, 10 },
 };
 
-void InitDots(const Vector2 wind_size, Dot* dot[], unsigned int amount)
+void InitDots(const Vector2 wind_size, Dot* dot, unsigned int amount)
 {
     for (int i = 0; i < amount; i++)
     {
         DotType type = SpawnFromTable(point_dot_chances, 6);
 
-        dot[i] = (Dot*)malloc(sizeof(Dot));
-        // Handle allocation failure
-        if (dot[i] == NULL)
-        {
-            printf("Couldin't allocate %d dot", i);
-            continue;
-        }
-
         float padding = 20.f;
-        dot[i]->ent.pos.x = GetRandomValue(padding, wind_size.x - padding);
-        dot[i]->ent.pos.y = GetRandomValue(padding, wind_size.y - padding);
+        dot[i].ent.pos.x = GetRandomValue(padding, wind_size.x - padding);
+        dot[i].ent.pos.y = GetRandomValue(padding, wind_size.y - padding);
 
-        dot[i]->type = type;
-        dot[i]->hp = 0;
-        dot[i]->duration = 0;
-        dot[i]->color = WHITE;
+        dot[i].type = type;
+        dot[i].duration = 0;
+        dot[i].color = WHITE;
 
         switch (type)
         {
             case CCCiC_DOT_TYPE_TINY_POINT:
             {
-                dot[i]->radius = 1.7f;
-                dot[i]->pointgain = 10;
-                dot[i]->text = "10";
+                dot[i].radius = 1.7f;
+                dot[i].pointgain = 10;
+                dot[i].text = "10";
                 break;
             }
             case CCCiC_DOT_TYPE_MED_POINT:
             {        
-                dot[i]->radius = 2.4f;
-                dot[i]->pointgain = 25;
-                dot[i]->text = "25";
+                dot[i].radius = 2.4f;
+                dot[i].pointgain = 25;
+                dot[i].text = "25";
                 break;
             }
             case CCCiC_DOT_TYPE_BIG_POINT:
             {
-                dot[i]->radius = 3.2f;
-                dot[i]->pointgain = 40;
-                dot[i]->text = "40";
+                dot[i].radius = 3.2f;
+                dot[i].pointgain = 40;
+                dot[i].text = "40";
                 break;
             }
             case CCCiC_DOT_TYPE_LARGE_POINT:
             {
-                dot[i]->radius = 4.5f;
-                dot[i]->pointgain = 65;
-                dot[i]->text = "65";
+                dot[i].radius = 4.5f;
+                dot[i].pointgain = 65;
+                dot[i].text = "65";
                 break;
             }
             case CCCiC_DOT_TYPE_XLARGE_POINT:
             {
-                dot[i]->radius = 5.6f;
-                dot[i]->pointgain = 80;
-                dot[i]->text = "80";
+                dot[i].radius = 5.6f;
+                dot[i].pointgain = 80;
+                dot[i].text = "80";
                 break;
             }
             case CCCiC_DOT_TYPE_XXLARGE_POINT:
             {
-                dot[i]->radius = 6.5f;
-                dot[i]->pointgain = 125;
-                dot[i]->text = "125";
+                dot[i].radius = 6.5f;
+                dot[i].pointgain = 125;
+                dot[i].text = "125";
                 break;
             }
 
@@ -102,7 +93,6 @@ void GenDots(const Vector2 wind_Size, Dot* dot)
     dot->ent.pos.y = GetRandomValue(padding, wind_Size.y - padding);
 
     dot->type = type;
-    dot->hp = 0;
     dot->duration = 0;
 
     if (dot->type & CCCiC_DOT_TYPE_TINY_POINT)
@@ -189,65 +179,58 @@ void GenDots(const Vector2 wind_Size, Dot* dot)
         }
 
         default:
-
         break;
     }
 }
 
-void UpdateDotsBasedOnPlayer(const Vector2 wind_size, Player* player, Dot* dot[], unsigned int amount)
+void UpdateDotsBasedOnPlayer(const Vector2 wind_size, Player* player, Dot* dot, unsigned int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        if (dot[i] == NULL)
-        {
-            printf("Couldn't find %d dot", i);
-            continue;
-        }
-
-        float dx = player->ent.pos.x - dot[i]->ent.pos.x;
-        float dy = player->ent.pos.y - dot[i]->ent.pos.y;
+        float dx = player->ent.pos.x - dot[i].ent.pos.x;
+        float dy = player->ent.pos.y - dot[i].ent.pos.y;
         float distnsq = dx * dx + dy * dy;
 
-        float radsum = player->radius + dot[i]->radius;
+        float radsum = player->radius + dot[i].radius;
         float radsumsq = radsum * radsum;
 
         if (distnsq < radsumsq)
         {
-            if (dot[i]->type & CCCiC_DOT_TYPE_TINY_POINT)
+            if (dot[i].type & CCCiC_DOT_TYPE_TINY_POINT)
             {
-                player->points += dot[i]->pointgain * player->pntbst;
+                player->points += dot[i].pointgain * player->pntbst;
             }
-            else if ((dot[i]->type & CCCiC_DOT_TYPE_DOUB_SPEED) && dot[i]->duration > 0)
+            else if ((dot[i].type & CCCiC_DOT_TYPE_DOUB_SPEED) && dot[i].duration > 0)
             {
-                switch (dot[i]->type)
+                switch (dot[i].type)
                 {
                     case CCCiC_DOT_TYPE_DOUB_SPEED:
                     {
-                        player->uduration[0] += dot[i]->duration;
+                        player->uduration[0] += dot[i].duration;
                         if (player->spdbst >= 1 && player->spdbst < 3) player->spdbst++;
                         break;
                     }
                     case CCCiC_DOT_TYPE_DOUB_POINTS:
                     {
-                        player->uduration[1] += dot[i]->duration;
+                        player->uduration[1] += dot[i].duration;
                         if (player->pntbst >= 1 && player->pntbst < 10) player->pntbst++;
                         break;
                     }
                     case CCCiC_DOT_TYPE_DOUB_DAMAGE:
                     {
-                        player->uduration[2] += dot[i]->duration;
+                        player->uduration[2] += dot[i].duration;
                         if (player->dmgbst >= 0 && player->dmgbst < 15) player->dmgbst++;
                         break;
                     }
                     case CCCiC_DOT_TYPE_DOUB_DEFENSE:
                     {
-                        player->uduration[3] += dot[i]->duration;
+                        player->uduration[3] += dot[i].duration;
                         if (player->dfnsbst >= 0 && player->dfnsbst < 15) player->dfnsbst++;
                         break;
                     }
                     case CCCiC_DOT_TYPE_DOUB_HEALTH:
                     {
-                        player->uduration[4] += dot[i]->duration;
+                        player->uduration[4] += dot[i].duration;
                         if (player->hpboost >= 0 && player->hpboost < 35) player->hpboost++;
                         // Will probably change this... Unless it's the only way.
                         player->health += 20;
@@ -255,7 +238,7 @@ void UpdateDotsBasedOnPlayer(const Vector2 wind_size, Player* player, Dot* dot[]
                     }
                     case CCCiC_DOT_TYPE_DOUB_DISCOUNT:
                     {
-                        player->uduration[5] += dot[i]->duration;
+                        player->uduration[5] += dot[i].duration;
                         player->discount = true;
                         break;
                     }
@@ -263,17 +246,17 @@ void UpdateDotsBasedOnPlayer(const Vector2 wind_size, Player* player, Dot* dot[]
                     break;
                 }
             }
-            GenDots(wind_size, dot[i]);
+            GenDots(wind_size, &dot[i]);
         }
     }
 }
 
-void DrawDots(Dot* dot[], unsigned int amount)
+void DrawDots(Dot* dot, unsigned int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        DrawCircleV(dot[i]->ent.pos, dot[i]->radius, dot[i]->color);
-        if (dot[i]->type & CCCiC_DOT_TYPE_TINY_POINT) DrawText(dot[i]->text, dot[i]->ent.pos.x, dot[i]->ent.pos.y, 16, (Color){123, 123, 123, 249});
+        DrawCircleV(dot[i].ent.pos, dot[i].radius, dot[i].color);
+        if (dot[i].type & CCCiC_DOT_TYPE_TINY_POINT) DrawText(dot[i].text, dot[i].ent.pos.x, dot[i].ent.pos.y, 16, (Color){123, 123, 123, 249});
     }
 }
 

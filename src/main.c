@@ -3,6 +3,7 @@
 #include "raygui.h"
 #include "Player.h"
 #include "Save.h"
+#include "Aggros.h"
 
 // Current GameState
 static int cur_state = CCCiC_STATE_MAIN_MENU;
@@ -20,11 +21,13 @@ int main(void)
         .radius = 15.f,
         .rotation = .0f,
         .speed = 1.f,
+        .bullets = NULL,
         .points = 0,
         .controls = {KEY_W, KEY_A, KEY_S, KEY_D, KEY_SPACE},
         .color = {0xFF, 0xFF, 0xFF, 0xFF},
         .health = 100,
         .maxhealth = 100,
+        .bulamnt = 0,
         .spdbst = 1,
         .pntbst = 1,
         .dmgbst = 1,
@@ -34,8 +37,27 @@ int main(void)
 
     Vector2 wind_size = (Vector2){wind_width, wind_height};
 
-    Dot* dot[16];
+    // Contiguous
+    Dot* dot = (Dot*)malloc(16 * sizeof(Dot));
+    
+    // handle allocation failure
+    if (dot == NULL)
+    {
+        fprintf(stderr, "Couldin't allocate dots");
+        return -1;
+    }
+    
     InitDots(wind_size, dot, 16);
+
+    AggroEnt* enemy = malloc(12 * sizeof(AggroEnt));
+
+    if (enemy == NULL)
+    {
+        fprintf(stderr, "Couldn't allocate enemies");
+        return -1;
+    }
+
+    InitEnemy(enemy, wind_size, 12);
 
     bool paused = false;
     bool shouldquit = false;
@@ -55,10 +77,17 @@ int main(void)
         if (cur_state == CCCiC_STATE_GAME)
         {
             player.speed = 150.f * dt;
+            // Put logic here
             if (!paused)
             {
+                // Player
                 UpdatePlayer(&player, wind_size, dt, &cur_state);
+                
+                // Dot
                 UpdateDotsBasedOnPlayer(wind_size, &player, dot, 16);
+                
+                // Enemy
+                UpdateEnemy(enemy, &player, dot, wind_size, dt, 12);
             }
 
             if (IsKeyPressed(KEY_ESCAPE)) paused = !paused;
@@ -93,8 +122,13 @@ int main(void)
             }
             else if (cur_state == CCCiC_STATE_GAME)
             {
+                // Enemy
+                DrawEnemy(enemy, 12);
+            
+                // Dots
                 DrawDots(dot, 16);
             
+                // Player
                 DrawPlayer(&player, wind_size, mousepos);
                 DrawPlayerHUD(&player, wind_size, mousepos, cur_state, paused);
                 GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, default_color);
@@ -121,6 +155,10 @@ int main(void)
             }
         EndDrawing();
     }
+
+    free(player.bullets);
+    // free(dot);
+    // free(enemy);
 
     CloseWindow();
 }
