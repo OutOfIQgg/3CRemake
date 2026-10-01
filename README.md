@@ -6,7 +6,7 @@ I probably should've made this repo a few months earlier, but I got carries away
 
 This is the OFFICIAL 3CiC repo. Any other with a similar name and/or similar source are probably copycats, or worse, fakers, or maybe unrelated projects. Especially if it's hosted in another site than GitHub (which is where you currently are).
 
-Currently, the game is stil in development, so don't think this is the full release or early access. It's more of a test branch right now. You can download it at your own risk as there's only the main menu and the game. The options are still underdeveloped.
+Currently, the game is still in development, so don't think this is the full release or early access. It's more of a test branch right now. You can download it at your own risk as there's only the main menu and the game. The options are still underdeveloped.
 
 ## How to Compile:
 1. Open your terminal
@@ -27,12 +27,12 @@ make
 # An even BIGGER wall of text. It's building the required libraries.
 
 # And finally, you can play
-./3CiC # or ./3CiC.exe on windows or just double click on it.
+./3CiC # or 3CiC.exe on windows or just double click on it.
 ```
 
-See? very easy. It's just 4 lines (excluding opening the game) and can be shortened to a few lines with the help of AND operaotrs (&&)
+See? very easy. It's just 4 lines (excluding opening the game) and can be shortened to a few lines with the help of AND operators (&&)
 
-Please contact me if the license feels a little restrictve. As I'm still working on finding a good license.
+Please contact me if the license feels a little restrictive. As I'm still working on finding a good license.
 
 Contact (Discord, usually open): outof1q
 
