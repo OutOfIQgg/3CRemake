@@ -1,5 +1,6 @@
 #include "Dots.h"
 
+// AI idea, AI implemented, human modified
 DotSpawnEntry point_dot_chances[] = {
     { CCCiC_DOT_TYPE_TINY_POINT,    95 },
     { CCCiC_DOT_TYPE_MED_POINT,     75 },
@@ -260,6 +261,7 @@ void DrawDots(Dot* dot, unsigned int amount)
     }
 }
 
+// AI made, AI implemented, non-human modified
 // Helper functions
 DotType SpawnFromTable(DotSpawnEntry* table, unsigned int size)
 {
