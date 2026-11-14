@@ -31,11 +31,7 @@ make
 # An even BIGGER wall of text. It's building the required libraries.
 
 # And finally, you can play
-<<<<<<< Updated upstream
-./3CiC # or 3CiC.exe on windows or just double click on it.
-=======
-./3CRemake # or 3CRemake.exe on windows or just double click on it.
->>>>>>> Stashed changes
+./3CRemake # or .\3CRemake.exe on windows or just double click on it.
 ```
 
 See? very easy. It's just 4 lines (excluding opening the game) and can be shortened to a few lines with the help of AND operators (&&)
