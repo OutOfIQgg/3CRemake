@@ -162,11 +162,8 @@ void DrawPlayerHUD(Player* player, const Vector2 wind_size, const Vector2 mousep
 
     // Check if mouse is in the line's borders
     // Let's not neglect pause check :P
-    if (!paused)
-    {
-        if (mousepos.y > linestarty) linestarty = 445;
-        else linestarty = 565;
-    }
+    if (mousepos.y > linestarty || IsKeyDown(player->controls[5]) || paused) linestarty = 445;
+    else linestarty = 565;
 
     // Status graphics
     DrawLineEx((Vector2){ 0, linestarty }, (Vector2){ wind_size.x, linestarty }, 10.f, (Color){0, 110, 105, 125});

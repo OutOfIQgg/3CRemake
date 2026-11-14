@@ -33,12 +33,13 @@ typedef struct Player {
     float speed;                                                // Player speed
     Bullet* bullets;                                            // Player bullets
     uint64_t points;                                            // Player points
-    int controls[5];                                            // Player controls
+    int controls[6];                                            // Player controls
     // controls[0] = up
     // controls[1] = left
     // controls[2] = down
     // controls[3] = right
     // controls[4] = shoot
+    // controls[6] = summon stat
     Color color;                                                // Player color
     uint16_t health;                                            // Player health
     uint16_t maxhealth;                                         // Player max health

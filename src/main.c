@@ -1,3 +1,4 @@
+#include <raylib.h>
 #define RAYGUI_IMPLEMENTATION
 //#define RAYGUI_NO_ICONS
 #include "raygui.h"
@@ -8,6 +9,8 @@
 // Current GameState
 static int cur_state = CCCiC_STATE_MAIN_MENU;
 static bool debug = false;
+// soon... (maybe not in beta versions lmao)
+// static bool archi_mode = false;
 
 int main(void)
 {
@@ -23,7 +26,7 @@ int main(void)
         .speed = 1.f,
         .bullets = NULL,
         .points = 0,
-        .controls = {KEY_W, KEY_A, KEY_S, KEY_D, KEY_SPACE},
+        .controls = {KEY_W, KEY_A, KEY_S, KEY_D, KEY_SPACE, KEY_TAB},
         .color = {0xFF, 0xFF, 0xFF, 0xFF},
         .health = 100,
         .maxhealth = 100,
@@ -145,7 +148,7 @@ int main(void)
                     DrawRectangle(0, 0, wind_size.x, wind_size.y, (Color){0, 0, 0, 100});
                     if (GuiButton((Rectangle){10, wind_height / 3.3f, 120, 40}, "RESUME")) paused = !paused;
                     if (GuiButton((Rectangle){10, wind_height / 2.5f, 120, 40}, "OPTIONS")) { stateholdover = cur_state; cur_state = CCCiC_STATE_OPTIONS; }
-                    if (GuiButton((Rectangle){10, wind_height / 2, 120, 40}, "QUIT")) shouldquit = !shouldquit;
+                    if (GuiButton((Rectangle){10, wind_height / 2.f, 120, 40}, "QUIT")) shouldquit = !shouldquit;
                 }
             }
             else if (cur_state == CCCiC_STATE_OPTIONS)
